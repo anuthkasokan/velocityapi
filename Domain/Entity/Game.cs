@@ -1,5 +1,15 @@
 namespace Domain.Entity;
 
+/// <summary>
+/// Domain Entity: Game
+/// </summary>
+/// <remarks>
+/// Architecture: Domain layer (core business entities)
+/// - Represents a video game in the system
+/// - EF Core conventions: Id property is primary key
+/// - Navigation properties for relationships (Publisher, Developer)
+/// - Nullable foreign keys allow games without publisher/developer
+/// </remarks>
 public class Game
 {
     public int Id { get; set; }
@@ -7,9 +17,11 @@ public class Game
     public string? Description { get; set; }
     public DateTime? ReleaseDate { get; set; }
 
+    // Foreign key and navigation property for Publisher
     public int? PublisherId { get; set; }
     public Publisher? Publisher { get; set; }
 
+    // Foreign key and navigation property for Developer
     public int? DeveloperId { get; set; }
     public Developer? Developer { get; set; }
 }

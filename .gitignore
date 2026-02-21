@@ -20,6 +20,15 @@ x86/
 bld/
 [Bb]in/
 [Oo]bj/
+# Ensure any nested project build outputs are ignored (including net10.0 folders)
+**/bin/
+**/obj/
+**/bin/Debug/
+**/bin/Release/
+**/bin/Debug/net10.0/
+**/bin/Release/net10.0/
+[Bb]in/
+[Oo]bj/
 [Ll]og/
 [Ll]ogs/
 

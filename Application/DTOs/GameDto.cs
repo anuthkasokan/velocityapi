@@ -1,5 +1,15 @@
 namespace Application.DTOs;
 
+/// <summary>
+/// Data Transfer Object for Game entity
+/// </summary>
+/// <remarks>
+/// Purpose: Decouple API responses from database entities
+/// - Prevents over-posting attacks
+/// - Controls what data is exposed to clients
+/// - Allows different representations for different operations
+/// - Record type provides immutability and value equality
+/// </remarks>
 public record GameDto
 {
     public int Id { get; set; }
