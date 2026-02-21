@@ -159,7 +159,7 @@ dotnet ef database update --project Infrastructure --startup-project API
 dotnet run --project API
 ```
 
-The API will be available at `https://localhost:5001` (or configured port).
+The API will be available at `https://localhost:5068` (or configured port).
 
 ### OpenAPI/Swagger
 
@@ -185,7 +185,7 @@ dotnet test Tests/API.Tests/API.Tests.csproj --nologo
 ### Test Coverage
 
 - **Infrastructure.Tests** (9 tests): Tests `GameService` CRUD operations using EF Core InMemory provider
-- **API.Tests** (7 tests): Tests endpoint logic and service integration using Moq
+- **API.Tests** (6 tests): Tests endpoint logic and service integration using Moq
 
 ## 🎯 Design Patterns & Best Practices
 
@@ -214,7 +214,7 @@ dotnet test Tests/API.Tests/API.Tests.csproj --nologo
 ### Code Quality Features
 
 - **Nullable Reference Types** enabled for null safety
-- **Primary Constructors** (C# 12) for concise DI
+- **Primary Constructors** (C# 14) for concise DI
 - **Record types** for immutable DTOs
 - **Async/await** throughout for scalability
 - **Idempotent operations** (PUT/DELETE return 204 even if resource doesn't exist)
@@ -252,7 +252,7 @@ Platforms (reference data)
 
 ### Connection Strings
 
-- **Development**: `appsettings.Development.json`
+- **Development**: `appsettings.json`
 - **Production**: Environment variables or Azure Key Vault
 
 ### Entity Framework Migrations
@@ -268,23 +268,6 @@ Revert last migration:
 ```bash
 dotnet ef migrations remove --project Infrastructure --startup-project API
 ```
-
-## 🚦 Potential Enhancements
-
-Future improvements to showcase additional skills:
-
-- [ ] **Validation**: FluentValidation for request validation
-- [ ] **Logging**: Serilog for structured logging
-- [ ] **Caching**: Redis or in-memory caching
-- [ ] **Authentication**: JWT bearer tokens
-- [ ] **Authorization**: Role-based access control
-- [ ] **API Versioning**: Support multiple API versions
-- [ ] **Pagination**: Limit response sizes for large datasets
-- [ ] **Filtering & Sorting**: Query parameters for flexible data retrieval
-- [ ] **Global Error Handling**: Middleware for consistent error responses
-- [ ] **Health Checks**: Endpoint for monitoring
-- [ ] **Docker**: Containerization with docker-compose
-- [ ] **CI/CD**: GitHub Actions pipeline
 
 ## 📝 Notes for Reviewers
 
@@ -302,6 +285,6 @@ The codebase is intentionally well-commented to demonstrate understanding of arc
 
 ---
 
-**Author**: [Your Name]  
-**Date**: February 2025  
-**Purpose**: Technical Assessment / Portfolio Project
+**Author**: Anuth Asokan  
+**Date**: February 2026
+**Purpose**: Technical Assessment
