@@ -17,11 +17,12 @@ public class Game
     public string? Description { get; set; }
     public DateTime? ReleaseDate { get; set; }
 
-    // Foreign key and navigation property for Publisher
+    public int? GenreId { get; set; }
+    public Genre? Genre { get; set; }
+
     public int? PublisherId { get; set; }
     public Publisher? Publisher { get; set; }
 
-    // Foreign key and navigation property for Developer
     public int? DeveloperId { get; set; }
     public Developer? Developer { get; set; }
 }

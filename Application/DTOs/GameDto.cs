@@ -16,6 +16,9 @@ public record GameDto
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public DateTime? ReleaseDate { get; set; }
-    public int? PublisherId { get; set; }
-    public int? DeveloperId { get; set; }
+
+    // Related objects included for richer API responses
+    public GenreDto? Genre { get; set; }
+    public PublisherDto? Publisher { get; set; }
+    public DeveloperDto? Developer { get; set; }
 }

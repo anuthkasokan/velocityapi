@@ -23,6 +23,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Enable OpenAPI/Swagger for API documentation and testing
 builder.Services.AddOpenApi();
 
+// CORS: allow only the Angular dev server origin for local development
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: "AllowLocalhost",
+        policy => policy
+            .WithOrigins("http://localhost:4200")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+    );
+});
+
 // Register EF Core DbContext with SQL Server provider
 builder.Services.AddDbContext<VideoGamesDbContext>(opts =>
     opts.UseSqlServer(builder.Configuration.GetConnectionString("Default")));
@@ -30,6 +41,7 @@ builder.Services.AddDbContext<VideoGamesDbContext>(opts =>
 builder.Services.AddScoped<IGameService, GameService>();
 builder.Services.AddScoped<IPublisherService, PublisherService>();
 builder.Services.AddScoped<IDeveloperService, DeveloperService>();
+builder.Services.AddScoped<IGenreService, GenreService>();
 
 var app = builder.Build();
 
@@ -43,6 +55,9 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+// Apply CORS policy allowing only configured origin
+app.UseCors("AllowLocalhost");
+
 // Redirect HTTP requests to HTTPS for security
 app.UseHttpsRedirection();
 
@@ -52,5 +67,6 @@ app.UseHttpsRedirection();
 app.MapVideoGamesEndpoints();
 app.MapPublisherEndpoints();
 app.MapDeveloperEndpoints();
+app.MapGenreEndpoints();
 
 app.Run();

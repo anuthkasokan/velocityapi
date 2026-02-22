@@ -32,6 +32,7 @@ public class GameService(VideoGamesDbContext db) : IGameService
             Title = request.Title,
             Description = request.Description,
             ReleaseDate = request.ReleaseDate,
+            GenreId = request.GenreId,
             PublisherId = request.PublisherId,
             DeveloperId = request.DeveloperId
         };
@@ -67,6 +68,7 @@ public class GameService(VideoGamesDbContext db) : IGameService
     public async Task<IEnumerable<GameDto>> GetAllAsync()
     {
         return await _db.Games
+            .Include(g => g.Genre)       // Eager load related Genre
             .Include(g => g.Developer)   // Eager load related Developer
             .Include(g => g.Publisher)   // Eager load related Publisher
             .Select(g => new GameDto     // Project to DTO (prevents over-fetching)
@@ -75,8 +77,9 @@ public class GameService(VideoGamesDbContext db) : IGameService
                 Title = g.Title,
                 Description = g.Description,
                 ReleaseDate = g.ReleaseDate,
-                PublisherId = g.PublisherId,
-                DeveloperId = g.DeveloperId
+                Genre = g.Genre == null ? null : new GenreDto { Id = g.Genre.Id, Name = g.Genre.Name },
+                Publisher = g.Publisher == null ? null : new PublisherDto { Id = g.Publisher.Id, Name = g.Publisher.Name },
+                Developer = g.Developer == null ? null : new DeveloperDto { Id = g.Developer.Id, Name = g.Developer.Name }
             })
             .ToListAsync();
     }
@@ -87,22 +90,24 @@ public class GameService(VideoGamesDbContext db) : IGameService
     /// <returns>GameDto if found, null otherwise</returns>
     public async Task<GameDto?> GetByIdAsync(int id)
     {
-        var g = await _db.Games
+        var game = await _db.Games
+            .Include(x => x.Genre)
             .Include(x => x.Developer)
             .Include(x => x.Publisher)
             .FirstOrDefaultAsync(x => x.Id == id);
 
-        if (g is null) return null;
+        if (game is null) return null;
 
         // Manual mapping (could use AutoMapper in larger projects)
         return new GameDto
         {
-            Id = g.Id,
-            Title = g.Title,
-            Description = g.Description,
-            ReleaseDate = g.ReleaseDate,
-            PublisherId = g.PublisherId,
-            DeveloperId = g.DeveloperId
+            Id = game.Id,
+            Title = game.Title,
+            Description = game.Description,
+            ReleaseDate = game.ReleaseDate,
+            Genre = game.Genre == null ? null : new GenreDto { Id = game.Genre.Id, Name = game.Genre.Name },
+            Publisher = game.Publisher == null ? null : new PublisherDto { Id = game.Publisher.Id, Name = game.Publisher.Name },
+            Developer = game.Developer == null ? null : new DeveloperDto { Id = game.Developer.Id, Name = game.Developer.Name }
         };
     }
 
@@ -122,6 +127,7 @@ public class GameService(VideoGamesDbContext db) : IGameService
         game.ReleaseDate = request.ReleaseDate;
         game.PublisherId = request.PublisherId;
         game.DeveloperId = request.DeveloperId;
+        game.GenreId = request.GenreId;
 
         // EF Core tracks changes automatically
         await _db.SaveChangesAsync();

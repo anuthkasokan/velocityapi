@@ -222,15 +222,18 @@ public class GameServiceTests
         await using var context = GetInMemoryDbContext();
         var developer = new Developer { Id = 1, Name = "Nintendo EPD" };
         var publisher = new Publisher { Id = 1, Name = "Nintendo Publishing" };
+        var genre = new Genre { Id = 1, Name = "Action" };
         context.Developers.Add(developer);
         context.Publishers.Add(publisher);
+        context.Genres.Add(genre);
 
         var game = new Game
         {
             Id = 1,
             Title = "Metroid Prime",
             DeveloperId = 1,
-            PublisherId = 1
+            PublisherId = 1,
+            GenreId = 1
         };
         context.Games.Add(game);
         await context.SaveChangesAsync();
@@ -245,8 +248,9 @@ public class GameServiceTests
         Assert.That(gameDto, Is.Not.Null);
         Assert.Multiple(() =>
         {
-            Assert.That(gameDto.DeveloperId, Is.EqualTo(1));
-            Assert.That(gameDto.PublisherId, Is.EqualTo(1));
+            Assert.That(gameDto.Genre?.Id, Is.EqualTo(1));
+            Assert.That(gameDto.Publisher?.Id, Is.EqualTo(1));
+            Assert.That(gameDto.Developer?.Id, Is.EqualTo(1));
         });
 
     }
